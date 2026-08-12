@@ -92,7 +92,7 @@ export default function ReservationForm() {
           ) : (
             <form onSubmit={handleSubmit} className="reservation-form">
               {error && <div className="form-error-msg">{error}</div>}
-              
+
               <div className="form-group-row">
                 <div className="form-input-group">
                   <label htmlFor="name">NAME</label>

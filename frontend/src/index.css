@@ -16,35 +16,35 @@
   --text-caption: 14px;
   --leading-caption: 1.45;
   --tracking-caption: 0.84px;
-  
+
   --text-body-sm: 16px;
   --leading-body-sm: 1.37;
   --tracking-body-sm: 0.64px;
-  
+
   --text-body-lg: 20px;
   --leading-body-lg: 1.25;
   --tracking-body-lg: 0.4px;
-  
+
   --text-subheading: 26px;
   --leading-subheading: 1.2;
   --tracking-subheading: 0.52px;
-  
+
   --text-heading-sm: 30px;
   --leading-heading-sm: 1.15;
   --tracking-heading-sm: 0.9px;
-  
+
   --text-heading: 36px;
   --leading-heading: 1.15;
   --tracking-heading: 1.08px;
-  
+
   --text-heading-lg: 46px;
   --leading-heading-lg: 1.1;
   --tracking-heading-lg: 1.84px;
-  
+
   --text-display: 68px;
   --leading-display: 1.01;
   --tracking-display: 4.08px;
-  
+
   --text-display-xl: 75px;
   --leading-display-xl: 1;
   --tracking-display-xl: 4.5px;
@@ -91,7 +91,9 @@
 }
 
 /* Resets */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -115,7 +117,10 @@ a {
   color: inherit;
 }
 
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   font-family: inherit;
   font-size: inherit;
   color: inherit;
@@ -138,13 +143,16 @@ img {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--color-black-olive);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--color-forest-ink);
   border-radius: var(--radius-sm);
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-lemon-zest);
 }
@@ -163,8 +171,15 @@ img {
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {
@@ -172,11 +187,25 @@ img {
 }
 
 /* Text Colors */
-.text-cream { color: var(--color-warm-cream); }
-.text-cream-muted { color: rgba(252, 249, 240, 0.7); }
-.text-forest { color: var(--color-forest-ink); }
-.text-forest-muted { color: rgba(16, 59, 21, 0.8); }
-.text-lemon { color: var(--color-lemon-zest); }
+.text-cream {
+  color: var(--color-warm-cream);
+}
+
+.text-cream-muted {
+  color: rgba(252, 249, 240, 0.7);
+}
+
+.text-forest {
+  color: var(--color-forest-ink);
+}
+
+.text-forest-muted {
+  color: rgba(16, 59, 21, 0.8);
+}
+
+.text-lemon {
+  color: var(--color-lemon-zest);
+}
 
 /* ==========================================================================
    NAVIGATION BAR
@@ -302,7 +331,8 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(29, 11, 13, 0.75); /* Moody black olive overlay */
+  background-color: rgba(29, 11, 13, 0.75);
+  /* Moody black olive overlay */
   z-index: 1;
 }
 
@@ -586,7 +616,8 @@ img {
   width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  margin-bottom: 30px; /* 30px spacing between image and text */
+  margin-bottom: 30px;
+  /* 30px spacing between image and text */
 }
 
 .food-card-image {
@@ -1078,7 +1109,8 @@ img {
   height: 40px;
   background-color: var(--surface-forest-ink-surface);
   color: var(--color-warm-cream);
-  border-radius: var(--radius-circular); /* 40px */
+  border-radius: var(--radius-circular);
+  /* 40px */
   border: none;
   display: flex;
   align-items: center;
@@ -1808,50 +1840,67 @@ img {
    RESPONSIVE DESIGN BREAKPOINTS
    ========================================================================== */
 @media (max-width: 992px) {
-  .nav-group { width: 33%; }
-  .menu-grid { grid-template-columns: repeat(2, 1fr); }
+  .nav-group {
+    width: 33%;
+  }
+
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .featured-container {
     flex-direction: column;
     gap: 40px;
   }
+
   .featured-content-left,
   .featured-image-right-wrapper {
     width: 100%;
   }
+
   .featured-image-right {
     height: 380px;
   }
+
   .about-container {
     flex-direction: column;
     gap: 40px;
   }
+
   .about-text-content,
   .about-image-wrapper {
     width: 100%;
   }
+
   .about-image {
     height: 380px;
   }
+
   .reservation-container {
     flex-direction: column;
     gap: 40px;
   }
+
   .reservation-info,
   .reservation-card {
     width: 100%;
   }
+
   .faq-grid {
     grid-template-columns: 1fr;
     gap: 30px;
   }
+
   .menu-manager-split {
     flex-direction: column;
     gap: 40px;
   }
+
   .menu-creator-card,
   .menu-list-wrapper {
     width: 100%;
   }
+
   .orders-grid {
     grid-template-columns: 1fr;
   }
@@ -1862,32 +1911,40 @@ img {
     height: auto;
     padding: 15px 0;
   }
+
   .nav-content {
     flex-direction: column;
     gap: var(--spacing-12);
   }
+
   .nav-group {
     width: 100%;
     justify-content: center;
   }
+
   .hero-section {
     height: auto;
     padding: 100px 0;
   }
+
   .hero-display-text {
     font-size: var(--text-heading-lg);
   }
+
   .category-filters {
     justify-content: center;
   }
+
   .dashboard-body {
     flex-direction: column;
   }
+
   .dashboard-sidebar {
     width: 100%;
     border-right: none;
     border-bottom: 1px solid rgba(220, 226, 220, 0.1);
   }
+
   .cart-panel {
     width: 100%;
   }
@@ -1898,13 +1955,16 @@ img {
     grid-template-columns: 1fr;
     gap: var(--spacing-16);
   }
+
   .menu-grid {
     grid-template-columns: 1fr;
   }
+
   .hero-actions {
     flex-direction: column;
     gap: 12px;
   }
+
   .featured-actions {
     flex-direction: column;
     align-items: stretch;
