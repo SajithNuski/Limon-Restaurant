@@ -254,7 +254,26 @@ img {
   color: var(--color-warm-cream);
   padding: 6px 12px;
   border: 1px solid transparent;
-  transition: all 0.2s ease;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  background-color: var(--color-lemon-zest);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .nav-link:hover {
@@ -264,6 +283,10 @@ img {
 .active-outline {
   border: 1px solid var(--color-pure-white);
   border-radius: var(--radius-sm);
+}
+
+.active-outline::after {
+  display: none;
 }
 
 .nav-logo {
