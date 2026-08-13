@@ -107,21 +107,34 @@ export default function Navbar() {
           <Link to="/admin" className={`relative py-1.5 px-3 font-sans text-body-sm font-normal tracking-[0.64px] uppercase text-warm-cream transition-colors duration-300 hover:text-lemon-zest flex items-center gap-1 after:content-[''] after:absolute after:bottom-0 after:left-3 after:right-3 after:h-[2px] after:bg-lemon-zest after:transition-transform after:duration-300 after:ease-out ${isActive('/admin') ? 'text-lemon-zest after:scale-x-100' : 'after:scale-x-0 hover:after:scale-x-100 after:origin-right hover:after:origin-left'}`}>
             <Lock size={14} /> {t('nav.admin')}
           </Link>
-          
-          {/* Language Switcher */}
-          <div className="flex items-center gap-1 font-sans text-caption font-semibold text-warm-cream/50">
+
+          {/* Modern Capsule Language Switcher */}
+          <div dir="ltr" className="flex items-center">
             <button
-              onClick={() => changeLanguage('en')}
-              className={`hover:text-lemon-zest transition-colors duration-200 py-1 ${language === 'en' ? 'text-lemon-zest font-bold' : ''}`}
+              onClick={() => changeLanguage(language === 'en' ? 'ar' : 'en')}
+              className="relative flex items-center bg-black/60 border border-sage-mist/20 rounded-full p-[3px] w-[74px] h-[34px] cursor-pointer transition-all duration-300 hover:border-lemon-zest/40 focus:outline-none"
+              aria-label="Toggle language"
             >
-              EN
-            </button>
-            <span>/</span>
-            <button
-              onClick={() => changeLanguage('ar')}
-              className={`hover:text-lemon-zest transition-colors duration-200 py-1 ${language === 'ar' ? 'text-lemon-zest font-bold' : ''}`}
-            >
-              AR
+              {/* Sliding Background */}
+              <div 
+                className={`absolute top-[3px] bottom-[3px] w-[32px] bg-lemon-zest rounded-full transition-transform duration-300 ease-out ${
+                  language === 'en' ? 'translate-x-0' : 'translate-x-[36px]'
+                }`}
+              />
+              
+              {/* Text Labels */}
+              <div className="relative w-full h-full flex justify-between items-center z-10 pointer-events-none select-none">
+                <span className={`w-[32px] text-center font-sans text-[11px] font-bold tracking-[0.5px] transition-colors duration-300 ${
+                  language === 'en' ? 'text-black-olive' : 'text-warm-cream/60'
+                }`}>
+                  EN
+                </span>
+                <span className={`w-[32px] text-center font-sans text-[11px] font-bold tracking-[0.5px] transition-colors duration-300 ${
+                  language === 'ar' ? 'text-black-olive' : 'text-warm-cream/60'
+                }`}>
+                  AR
+                </span>
+              </div>
             </button>
           </div>
 
