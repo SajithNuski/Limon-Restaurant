@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import FoodCard from '../components/FoodCard';
 import FeaturedSection from '../components/FeaturedSection';
 import ReservationForm from '../components/ReservationForm';
+import { useLanguage } from '../context/LanguageContext';
 import { ArrowRight, HelpCircle } from 'lucide-react';
 
 // Hardcoded fallback data in case backend API is not reachable
@@ -91,6 +92,7 @@ const fallbackMenu = [
 const categories = ['All', 'Appetizers', 'Mains', 'Sides', 'Desserts', 'Drinks'];
 
 export default function Home() {
+  const { t, isRtl } = useLanguage();
   const [menu, setMenu] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(true);
@@ -130,17 +132,17 @@ export default function Home() {
         <div className="relative z-10 max-w-[1200px] mx-auto px-5 w-full animate-fade-in">
           <div className="max-w-[650px]">
             <h1 className="font-sans text-heading-lg md:text-display-xl font-normal leading-none tracking-[4.5px] text-lemon-zest mb-5">
-              LIMÓN<br />BRASSERIE
+              {t('hero.title')}<br />{t('hero.brasserie')}
             </h1>
             <p className="font-sans text-body-lg font-normal tracking-[0.4px] leading-[1.5] text-warm-cream mb-[30px]">
-              A moody candlelit dining experience highlighting fresh ceviches, premium flame-kissed cuts, and curated citrus mixology.
+              {t('hero.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-3">
-              <a href="#menu" className="font-sans text-body-sm font-semibold tracking-[0.64px] uppercase bg-lemon-zest text-black-olive py-3 px-5 rounded-[1px] transition-opacity duration-200 text-center hover:opacity-90 inline-block">
-                EXPLORE MENU
+              <a href="#menu" className="font-sans text-body-sm font-semibold tracking-[0.64px] uppercase bg-lemon-zest text-black-olive py-3 px-5 rounded-[1px] transition-opacity duration-200 text-center hover:opacity-90 inline-block animate-none">
+                {t('hero.explore')}
               </a>
               <a href="#reservations" className="font-sans text-body-sm font-semibold tracking-[0.64px] uppercase text-warm-cream border border-white py-3 px-4 rounded-[1px] transition-all duration-200 hover:bg-white hover:text-black-olive text-center inline-block">
-                RESERVE A TABLE
+                {t('hero.reserve')}
               </a>
             </div>
           </div>
@@ -154,10 +156,14 @@ export default function Home() {
       <section id="menu" className="bg-warm-cream text-black-olive py-[60px]">
         <div className="max-w-[1200px] mx-auto px-5 w-full">
           <div className="mb-[50px] max-w-[650px]">
-            <span className="text-caption tracking-[0.84px] font-semibold uppercase mb-2 text-forest-ink block">OUR GOURMET SELECTIONS</span>
-            <h2 className="text-heading font-medium tracking-[1.08px] mb-3 uppercase text-forest-ink">The Brasserie Menu</h2>
+            <span className="text-caption tracking-[0.84px] font-semibold uppercase mb-2 text-forest-ink block">
+              {t('menu.tag')}
+            </span>
+            <h2 className="text-heading font-medium tracking-[1.08px] mb-3 uppercase text-forest-ink">
+              {t('menu.title')}
+            </h2>
             <p className="text-[19px] leading-[1.4] text-forest-ink/80">
-              Flat, authentic food-first photography. Curated culinary still-life dishes served fresh to order.
+              {t('menu.subtitle')}
             </p>
           </div>
 
@@ -173,13 +179,15 @@ export default function Home() {
                     : 'text-forest-ink/60'
                 }`}
               >
-                {category.toUpperCase()}
+                {t(`menu.categories.${category.toLowerCase()}`, category).toUpperCase()}
               </button>
             ))}
           </div>
 
           {loading ? (
-            <div className="text-body-lg text-forest-ink tracking-[2px] text-center py-[60px]">ILLUMINATING DISHES...</div>
+            <div className="text-body-lg text-forest-ink tracking-[2px] text-center py-[60px]">
+              {t('menu.loading')}
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[30px] gap-y-[45px]">
               {filteredMenu.map((dish) => (
@@ -194,20 +202,27 @@ export default function Home() {
       <section id="about" className="bg-black-olive text-warm-cream py-[60px]">
         <div className="max-w-[1200px] mx-auto px-5 w-full flex flex-col lg:flex-row items-center gap-[50px]">
           <div className="w-full lg:w-1/2 flex flex-col items-start">
-            <span className="text-caption tracking-[0.84px] font-semibold uppercase mb-2 text-lemon-zest block">OUR PHILOSOPHY</span>
-            <h2 className="text-heading font-medium tracking-[1.08px] mb-3 uppercase text-warm-cream">Candlelight & Ink</h2>
+            <span className="text-caption tracking-[0.84px] font-semibold uppercase mb-2 text-lemon-zest block">
+              {t('about.tag')}
+            </span>
+            <h2 className="text-heading font-medium tracking-[1.08px] mb-3 uppercase text-warm-cream">
+              {t('about.title')}
+            </h2>
             <p className="text-[19px] leading-[1.45] mb-5 text-warm-cream">
-              Limón is designed as an evening retreat. The visual grammar of our brasserie relies on olive-black surfaces and minimal structural decoration, allowing the plates and drinks to burn brightly under soft candlelight.
+              {t('about.p1')}
             </p>
             <p className="text-[19px] leading-[1.45] mb-5 text-warm-cream/70">
-              We source organic ingredients, highlighting seasonal fruits and lime, pairing our dishes with deep botanical greens and full-bodied spices. Our space is sharp, unsoftened, and dedicated entirely to the presentation of culinary art.
+              {t('about.p2')}
             </p>
             <a 
               href="#reservations" 
               className="group font-sans text-body-sm font-medium tracking-[0.64px] uppercase inline-flex items-center gap-1.5 py-2 transition-all duration-200 border-b border-transparent hover:border-current text-warm-cream"
             >
-              RESERVE SEATING
-              <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
+              {t('about.reserve')}
+              <ArrowRight 
+                size={14} 
+                className={`transition-transform duration-200 ${isRtl ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} 
+              />
             </a>
           </div>
           <div className="w-full lg:w-1/2">
@@ -227,48 +242,52 @@ export default function Home() {
       <section className="bg-warm-cream text-black-olive border-t border-sage-mist py-[60px]">
         <div className="max-w-[1200px] mx-auto px-5 w-full">
           <div className="mb-[50px] max-w-[650px] mx-auto text-center">
-            <span className="text-caption tracking-[0.84px] font-semibold uppercase mb-2 text-forest-ink block">COMMON INQUIRIES</span>
-            <h2 className="text-heading font-medium tracking-[1.08px] mb-3 uppercase text-forest-ink">Frequently Asked Questions</h2>
+            <span className="text-caption tracking-[0.84px] font-semibold uppercase mb-2 text-forest-ink block">
+              {t('faq.tag')}
+            </span>
+            <h2 className="text-heading font-medium tracking-[1.08px] mb-3 uppercase text-forest-ink">
+              {t('faq.title')}
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-[900px] mx-auto">
             <div className="flex flex-col gap-2">
               <h4 className="text-body-lg font-medium tracking-[0.64px] flex items-center gap-2 text-forest-ink">
                 <HelpCircle size={16} className="text-forest-ink shrink-0" />
-                What is the attire recommendation?
+                {t('faq.q1')}
               </h4>
-              <p className="text-body-sm leading-[1.45] text-forest-ink/80 pl-6">
-                We recommend smart casual attire. The atmosphere is an elegant, moody brasserie under candlelight, and dressing for the occasion is welcomed.
+              <p className="text-body-sm leading-[1.45] text-forest-ink/80 ps-6">
+                {t('faq.a1')}
               </p>
             </div>
             
             <div className="flex flex-col gap-2">
               <h4 className="text-body-lg font-medium tracking-[0.64px] flex items-center gap-2 text-forest-ink">
                 <HelpCircle size={16} className="text-forest-ink shrink-0" />
-                Do you accommodate food allergies?
+                {t('faq.q2')}
               </h4>
-              <p className="text-body-sm leading-[1.45] text-forest-ink/80 pl-6">
-                Yes, our chefs can customize yellowtail ceviches, salads, and main courses to fit gluten-free, nut-free, and shell-fish allergies. Please detail your requests in the reservation form.
+              <p className="text-body-sm leading-[1.45] text-forest-ink/80 ps-6">
+                {t('faq.a2')}
               </p>
             </div>
 
             <div className="flex flex-col gap-2">
               <h4 className="text-body-lg font-medium tracking-[0.64px] flex items-center gap-2 text-forest-ink">
                 <HelpCircle size={16} className="text-forest-ink shrink-0" />
-                Can we host private events?
+                {t('faq.q3')}
               </h4>
-              <p className="text-body-sm leading-[1.45] text-forest-ink/80 pl-6">
-                We accommodate private buyouts for groups of up to 45 guests. Email events@limonbrasserie.com for inquiries.
+              <p className="text-body-sm leading-[1.45] text-forest-ink/80 ps-6">
+                {t('faq.a3')}
               </p>
             </div>
 
             <div className="flex flex-col gap-2">
               <h4 className="text-body-lg font-medium tracking-[0.64px] flex items-center gap-2 text-forest-ink">
                 <HelpCircle size={16} className="text-forest-ink shrink-0" />
-                Is parking available?
+                {t('faq.q4')}
               </h4>
-              <p className="text-body-sm leading-[1.45] text-forest-ink/80 pl-6">
-                Complimentary valet service is available directly outside our main entrance starting at 5:00 PM Wednesday through Sunday.
+              <p className="text-body-sm leading-[1.45] text-forest-ink/80 ps-6">
+                {t('faq.a4')}
               </p>
             </div>
           </div>
@@ -277,3 +296,4 @@ export default function Home() {
     </div>
   );
 }
+

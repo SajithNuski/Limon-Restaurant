@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronUp } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false);
+  const { isRtl } = useLanguage();
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -29,10 +31,11 @@ export default function BackToTop() {
   return (
     <button
       onClick={scrollToTop}
-      className="fixed bottom-6 right-6 w-10 h-10 bg-forest-ink text-warm-cream rounded-full flex items-center justify-center z-50 transition-all duration-200 hover:bg-lemon-zest hover:text-black-olive"
+      className={`fixed bottom-6 ${isRtl ? 'left-6' : 'right-6'} w-10 h-10 bg-forest-ink text-warm-cream rounded-full flex items-center justify-center z-50 transition-all duration-200 hover:bg-lemon-zest hover:text-black-olive`}
       aria-label="Back to top"
     >
       <ChevronUp size={20} />
     </button>
   );
 }
+

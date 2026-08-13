@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 import { X, Plus, Minus, Trash2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -13,6 +14,7 @@ export default function CartSidebar() {
     cartTotal,
     clearCart
   } = useCart();
+  const { t, isRtl } = useLanguage();
 
   const [checkoutData, setCheckoutData] = useState({
     customerName: '',
@@ -86,11 +88,11 @@ export default function CartSidebar() {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-screen h-screen z-[200] flex justify-end animate-fade-in">
+    <div className={`fixed top-0 left-0 w-screen h-screen z-[200] flex ${isRtl ? 'justify-start' : 'justify-end'} animate-fade-in`}>
       <div className="absolute top-0 left-0 w-full h-full bg-black/60" onClick={() => setIsCartOpen(false)}></div>
-      <div className="relative z-10 w-full sm:w-[440px] h-full bg-black-olive border-l border-sage-mist/10 flex flex-col p-[30px] overflow-y-auto">
+      <div className={`relative z-10 w-full sm:w-[440px] h-full bg-black-olive ${isRtl ? 'border-r' : 'border-l'} border-sage-mist/10 flex flex-col p-[30px] overflow-y-auto`}>
         <div className="flex justify-between items-center mb-[30px]">
-          <h3 className="text-body-lg tracking-[0.64px] uppercase text-warm-cream">YOUR SELECTIONS</h3>
+          <h3 className="text-body-lg tracking-[0.64px] uppercase text-warm-cream">{t('cart.title')}</h3>
           <button className="text-warm-cream hover:text-lemon-zest transition-colors duration-200" onClick={() => {
             setIsCartOpen(false);
             setOrderPlaced(false);
@@ -101,9 +103,9 @@ export default function CartSidebar() {
 
         {orderPlaced ? (
           <div className="text-center my-auto">
-            <h4 className="text-subheading text-lemon-zest mb-4 tracking-[1px]">Order Placed Successfully!</h4>
+            <h4 className="text-subheading text-lemon-zest mb-4 tracking-[1px]">{t('cart.successTitle')}</h4>
             <p className="text-body-sm mb-[30px] text-warm-cream/80 leading-[1.5]">
-              Your gourmet selections have been sent to the brasserie kitchen. We will start preparation shortly.
+              {t('cart.successBody')}
             </p>
             <button
               onClick={() => {
@@ -112,64 +114,67 @@ export default function CartSidebar() {
               }}
               className="font-sans text-body-sm font-semibold tracking-[0.64px] uppercase bg-lemon-zest text-black-olive py-3 px-5 rounded-[1px] transition-opacity duration-200 text-center hover:opacity-90 inline-block w-full"
             >
-              CONTINUE BROWSING
+              {t('cart.continue')}
             </button>
           </div>
         ) : cartItems.length === 0 ? (
           <div className="text-center my-auto">
-            <p className="text-body-sm text-warm-cream/60 mb-5">Your order tray is currently empty.</p>
+            <p className="text-body-sm text-warm-cream/60 mb-5">{t('cart.empty')}</p>
             <button onClick={() => setIsCartOpen(false)} className="font-sans text-body-sm font-semibold tracking-[0.64px] uppercase bg-lemon-zest text-black-olive py-3 px-5 rounded-[1px] transition-opacity duration-200 text-center hover:opacity-90 inline-block w-full">
-              EXPLORE MENU
+              {t('cart.explore')}
             </button>
           </div>
         ) : (
           <>
             <div className="flex flex-col gap-5 mb-[30px]">
-              {cartItems.map((item) => (
-                <div key={item._id} className="flex gap-3 pb-4 border-b border-sage-mist/10">
-                  <img src={item.image} alt={item.name} className="w-[70px] h-[70px] object-cover rounded-[1px]" />
-                  <div className="flex flex-col flex-grow">
-                    <h5 className="text-body-sm font-medium text-warm-cream mb-1">{item.name}</h5>
-                    <div className="text-body-sm font-semibold text-lemon-zest mb-2">${(item.price * item.quantity).toFixed(2)}</div>
-                    <div className="flex items-center gap-2">
-                      <button
-                        className="w-[22px] h-[22px] border border-sage-mist/30 flex items-center justify-center text-warm-cream rounded-[1px] hover:border-lemon-zest hover:text-lemon-zest transition-colors duration-200"
-                        onClick={() => updateQuantity(item._id, item.quantity - 1)}
-                      >
-                        <Minus size={12} />
-                      </button>
-                      <span className="text-[14px] min-w-[16px] text-center text-warm-cream">{item.quantity}</span>
-                      <button
-                        className="w-[22px] h-[22px] border border-sage-mist/30 flex items-center justify-center text-warm-cream rounded-[1px] hover:border-lemon-zest hover:text-lemon-zest transition-colors duration-200"
-                        onClick={() => updateQuantity(item._id, item.quantity + 1)}
-                      >
-                        <Plus size={12} />
-                      </button>
-                      <button
-                        className="text-warm-cream/40 ml-auto hover:text-red-400 transition-colors duration-200"
-                        onClick={() => removeFromCart(item._id)}
-                      >
-                        <Trash2 size={14} />
-                      </button>
+              {cartItems.map((item) => {
+                const itemName = t(`dishes.${item._id}.name`, item.name);
+                return (
+                  <div key={item._id} className="flex gap-3 pb-4 border-b border-sage-mist/10">
+                    <img src={item.image} alt={itemName} className="w-[70px] h-[70px] object-cover rounded-[1px]" />
+                    <div className="flex flex-col flex-grow">
+                      <h5 className="text-body-sm font-medium text-warm-cream mb-1">{itemName}</h5>
+                      <div className="text-body-sm font-semibold text-lemon-zest mb-2">${(item.price * item.quantity).toFixed(2)}</div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          className="w-[22px] h-[22px] border border-sage-mist/30 flex items-center justify-center text-warm-cream rounded-[1px] hover:border-lemon-zest hover:text-lemon-zest transition-colors duration-200"
+                          onClick={() => updateQuantity(item._id, item.quantity - 1)}
+                        >
+                          <Minus size={12} />
+                        </button>
+                        <span className="text-[14px] min-w-[16px] text-center text-warm-cream">{item.quantity}</span>
+                        <button
+                          className="w-[22px] h-[22px] border border-sage-mist/30 flex items-center justify-center text-warm-cream rounded-[1px] hover:border-lemon-zest hover:text-lemon-zest transition-colors duration-200"
+                          onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                        >
+                          <Plus size={12} />
+                        </button>
+                        <button
+                          className="text-warm-cream/40 ms-auto hover:text-red-400 transition-colors duration-200"
+                          onClick={() => removeFromCart(item._id)}
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="border-t border-sage-mist/20 pt-4 mb-[30px]">
               <div className="flex justify-between text-body-lg font-semibold text-warm-cream">
-                <span>SUBTOTAL</span>
+                <span>{t('cart.subtotal')}</span>
                 <span className="text-lemon-zest">${cartTotal.toFixed(2)}</span>
               </div>
             </div>
 
             <form onSubmit={handleCheckout} className="border-t border-sage-mist/10 pt-6 flex flex-col gap-4">
-              <h4 className="text-caption tracking-[0.84px] text-warm-cream/50 mb-1">CHECKOUT DETAILS</h4>
+              <h4 className="text-caption tracking-[0.84px] text-warm-cream/50 mb-1">{t('cart.checkoutTitle')}</h4>
               {error && <div className="text-[#ff6b6b] text-body-sm bg-red-500/10 p-2 border border-red-500/10 rounded-[1px]">{error}</div>}
 
               <div className="flex flex-col gap-1">
-                <label htmlFor="customerName" className="text-[11px] tracking-[0.84px] text-warm-cream/40">NAME</label>
+                <label htmlFor="customerName" className="text-[11px] tracking-[0.84px] text-warm-cream/40">{t('cart.labels.name')}</label>
                 <input
                   type="text"
                   id="customerName"
@@ -177,13 +182,13 @@ export default function CartSidebar() {
                   required
                   value={checkoutData.customerName}
                   onChange={handleChange}
-                  placeholder="Enter name"
+                  placeholder={t('cart.placeholders.name')}
                   className="border border-sage-mist/20 bg-black/20 text-warm-cream p-2.5 rounded-[1px] text-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                 />
               </div>
 
               <div className="flex flex-col gap-1">
-                <label htmlFor="email" className="text-[11px] tracking-[0.84px] text-warm-cream/40">EMAIL</label>
+                <label htmlFor="email" className="text-[11px] tracking-[0.84px] text-warm-cream/40">{t('cart.labels.email')}</label>
                 <input
                   type="email"
                   id="email"
@@ -191,13 +196,13 @@ export default function CartSidebar() {
                   required
                   value={checkoutData.email}
                   onChange={handleChange}
-                  placeholder="Enter email"
+                  placeholder={t('cart.placeholders.email')}
                   className="border border-sage-mist/20 bg-black/20 text-warm-cream p-2.5 rounded-[1px] text-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                 />
               </div>
 
               <div className="flex flex-col gap-1">
-                <label htmlFor="phone" className="text-[11px] tracking-[0.84px] text-warm-cream/40">PHONE</label>
+                <label htmlFor="phone" className="text-[11px] tracking-[0.84px] text-warm-cream/40">{t('cart.labels.phone')}</label>
                 <input
                   type="tel"
                   id="phone"
@@ -205,13 +210,13 @@ export default function CartSidebar() {
                   required
                   value={checkoutData.phone}
                   onChange={handleChange}
-                  placeholder="Enter phone number"
+                  placeholder={t('cart.placeholders.phone')}
                   className="border border-sage-mist/20 bg-black/20 text-warm-cream p-2.5 rounded-[1px] text-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                 />
               </div>
 
               <div className="flex flex-col gap-1">
-                <label htmlFor="orderType" className="text-[11px] tracking-[0.84px] text-warm-cream/40">ORDER TYPE</label>
+                <label htmlFor="orderType" className="text-[11px] tracking-[0.84px] text-warm-cream/40">{t('cart.labels.type')}</label>
                 <select
                   id="orderType"
                   name="orderType"
@@ -220,8 +225,8 @@ export default function CartSidebar() {
                   onChange={handleChange}
                   className="border border-sage-mist/20 bg-black/20 text-warm-cream p-2.5 rounded-[1px] text-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                 >
-                  <option value="pickup" className="bg-black-olive text-warm-cream">Curbside Pickup</option>
-                  <option value="dine-in" className="bg-black-olive text-warm-cream">Dine-In prep</option>
+                  <option value="pickup" className="bg-black-olive text-warm-cream">{t('cart.types.pickup')}</option>
+                  <option value="dine-in" className="bg-black-olive text-warm-cream">{t('cart.types.dinein')}</option>
                 </select>
               </div>
 
@@ -230,7 +235,7 @@ export default function CartSidebar() {
                 disabled={loading} 
                 className="mt-2.5 w-full font-sans text-body-sm font-semibold tracking-[0.64px] uppercase bg-lemon-zest text-black-olive py-3 px-5 rounded-[1px] transition-opacity duration-200 text-center hover:opacity-90 disabled:opacity-50"
               >
-                {loading ? 'SUBMITTING ORDER...' : `PLACE ORDER • $${cartTotal.toFixed(2)}`}
+                {loading ? t('cart.submitting') : `${t('cart.submit')} • $${cartTotal.toFixed(2)}`}
               </button>
             </form>
           </>
@@ -239,3 +244,4 @@ export default function CartSidebar() {
     </div>
   );
 }
+

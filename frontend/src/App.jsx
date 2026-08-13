@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
+import { LanguageProvider } from './context/LanguageContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CartSidebar from './components/CartSidebar';
@@ -11,25 +12,28 @@ import AdminDashboard from './pages/AdminDashboard';
 
 export default function App() {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <Router>
-          <div className="app-wrapper">
-            <Navbar />
-            
-            <main className="main-content-area">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/admin" element={<AdminDashboard />} />
-              </Routes>
-            </main>
+    <LanguageProvider>
+      <AuthProvider>
+        <CartProvider>
+          <Router>
+            <div className="app-wrapper">
+              <Navbar />
+              
+              <main className="main-content-area">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/admin" element={<AdminDashboard />} />
+                </Routes>
+              </main>
 
-            <Footer />
-            <CartSidebar />
-            <BackToTop />
-          </div>
-        </Router>
-      </CartProvider>
-    </AuthProvider>
+              <Footer />
+              <CartSidebar />
+              <BackToTop />
+            </div>
+          </Router>
+        </CartProvider>
+      </AuthProvider>
+    </LanguageProvider>
   );
 }
+

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function ReservationForm() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -66,27 +68,38 @@ export default function ReservationForm() {
     <section id="reservations" className="bg-black-olive border-t border-sage-mist/10 py-[60px]">
       <div className="max-w-[1200px] mx-auto px-5 w-full flex flex-col lg:flex-row justify-between gap-[50px]">
         <div className="w-full lg:w-[40%]">
-          <span className="block text-caption tracking-[0.84px] font-semibold uppercase mb-2 text-lemon-zest">RESERVATIONS</span>
-          <h2 className="text-heading font-medium tracking-[1.08px] mb-3 uppercase text-warm-cream">Experience the Candlelight</h2>
+          <span className="block text-caption tracking-[0.84px] font-semibold uppercase mb-2 text-lemon-zest">
+            {t('reservations.tag')}
+          </span>
+          <h2 className="text-heading font-medium tracking-[1.08px] mb-3 uppercase text-warm-cream">
+            {t('reservations.title')}
+          </h2>
           <p className="text-body-lg leading-[1.5] mb-[30px] text-warm-cream/70">
-            Secure your table at Limón. Under moody olive-black canvases, bathed in warm overhead illumination, discover our signature still-life culinary expressions.
+            {t('reservations.subtitle')}
           </p>
           <div className="border-t border-sage-mist/20 pt-5">
-            <h4 className="text-body-lg tracking-[0.4px] mb-2 text-warm-cream">Hours of Illumination</h4>
-            <p className="text-body-sm text-warm-cream/60 mb-1">Wednesday — Sunday: 5:00 PM — 11:30 PM</p>
-            <p className="text-body-sm text-warm-cream/60 mb-1">Monday — Tuesday: Closed for Culinary Prep</p>
+            <h4 className="text-body-lg tracking-[0.4px] mb-2 text-warm-cream">
+              {t('reservations.hoursTitle')}
+            </h4>
+            <p className="text-body-sm text-warm-cream/60 mb-1">{t('reservations.hoursWedSun')}</p>
+            <p className="text-body-sm text-warm-cream/60 mb-1">{t('reservations.hoursMonTue')}</p>
           </div>
         </div>
 
         <div className="w-full lg:w-[55%] bg-white/[0.02] p-10 border border-sage-mist/10 rounded-[1px]">
           {success ? (
             <div className="text-center py-10">
-              <h3 className="text-subheading text-lemon-zest mb-4 tracking-[1px]">Table Reserved</h3>
+              <h3 className="text-subheading text-lemon-zest mb-4 tracking-[1px]">
+                {t('reservations.successTitle')}
+              </h3>
               <p className="text-body-sm mb-[30px] text-warm-cream/80">
-                Your reservation at Limón has been recorded. We will illuminate your table and send a confirmation email shortly.
+                {t('reservations.successText')}
               </p>
-              <button onClick={() => setSuccess(false)} className="font-sans text-body-sm font-semibold tracking-[0.64px] uppercase bg-lemon-zest text-black-olive py-3 px-5 rounded-[1px] transition-opacity duration-200 text-center hover:opacity-90 inline-block">
-                BOOK ANOTHER TABLE
+              <button 
+                onClick={() => setSuccess(false)} 
+                className="font-sans text-body-sm font-semibold tracking-[0.64px] uppercase bg-lemon-zest text-black-olive py-3 px-5 rounded-[1px] transition-opacity duration-200 text-center hover:opacity-90 inline-block"
+              >
+                {t('reservations.bookAnother')}
               </button>
             </div>
           ) : (
@@ -95,7 +108,9 @@ export default function ReservationForm() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="name" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">NAME</label>
+                  <label htmlFor="name" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">
+                    {t('reservations.labels.name')}
+                  </label>
                   <input
                     type="text"
                     id="name"
@@ -103,12 +118,14 @@ export default function ReservationForm() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="Enter name"
+                    placeholder={t('reservations.placeholders.name')}
                     className="border border-sage-mist/20 bg-black/20 text-warm-cream p-3 rounded-[1px] text-body-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="email" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">EMAIL</label>
+                  <label htmlFor="email" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">
+                    {t('reservations.labels.email')}
+                  </label>
                   <input
                     type="email"
                     id="email"
@@ -116,7 +133,7 @@ export default function ReservationForm() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="Enter email address"
+                    placeholder={t('reservations.placeholders.email')}
                     className="border border-sage-mist/20 bg-black/20 text-warm-cream p-3 rounded-[1px] text-body-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                   />
                 </div>
@@ -124,7 +141,9 @@ export default function ReservationForm() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="phone" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">PHONE</label>
+                  <label htmlFor="phone" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">
+                    {t('reservations.labels.phone')}
+                  </label>
                   <input
                     type="tel"
                     id="phone"
@@ -132,12 +151,14 @@ export default function ReservationForm() {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="Enter phone number"
+                    placeholder={t('reservations.placeholders.phone')}
                     className="border border-sage-mist/20 bg-black/20 text-warm-cream p-3 rounded-[1px] text-body-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="guests" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">GUESTS</label>
+                  <label htmlFor="guests" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">
+                    {t('reservations.labels.guests')}
+                  </label>
                   <select
                     id="guests"
                     name="guests"
@@ -148,7 +169,7 @@ export default function ReservationForm() {
                   >
                     {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
                       <option key={n} value={n} className="bg-black-olive text-warm-cream">
-                        {n} {n === 1 ? 'Guest' : 'Guests'}
+                        {n} {n === 1 ? t('reservations.guestOptions.singular') : t('reservations.guestOptions.plural')}
                       </option>
                     ))}
                   </select>
@@ -157,7 +178,9 @@ export default function ReservationForm() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="date" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">DATE</label>
+                  <label htmlFor="date" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">
+                    {t('reservations.labels.date')}
+                  </label>
                   <input
                     type="date"
                     id="date"
@@ -169,7 +192,9 @@ export default function ReservationForm() {
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="time" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">TIME</label>
+                  <label htmlFor="time" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">
+                    {t('reservations.labels.time')}
+                  </label>
                   <select
                     id="time"
                     name="time"
@@ -178,10 +203,12 @@ export default function ReservationForm() {
                     onChange={handleChange}
                     className="border border-sage-mist/20 bg-black/20 text-warm-cream p-3 rounded-[1px] text-body-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                   >
-                    <option value="" className="bg-black-olive text-warm-cream">Select Time</option>
-                    {['17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00'].map((t) => (
-                      <option key={t} value={t} className="bg-black-olive text-warm-cream">
-                        {t}
+                    <option value="" className="bg-black-olive text-warm-cream">
+                      {t('reservations.placeholders.time')}
+                    </option>
+                    {['17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00'].map((tVal) => (
+                      <option key={tVal} value={tVal} className="bg-black-olive text-warm-cream">
+                        {tVal}
                       </option>
                     ))}
                   </select>
@@ -189,14 +216,16 @@ export default function ReservationForm() {
               </div>
 
               <div className="flex flex-col gap-1">
-                <label htmlFor="specialRequests" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">SPECIAL REQUESTS (OPTIONAL)</label>
+                <label htmlFor="specialRequests" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">
+                  {t('reservations.labels.special')}
+                </label>
                 <textarea
                   id="specialRequests"
                   name="specialRequests"
                   rows="3"
                   value={formData.specialRequests}
                   onChange={handleChange}
-                  placeholder="Dietary details, birthday events, or seating requests..."
+                  placeholder={t('reservations.placeholders.special')}
                   className="border border-sage-mist/20 bg-black/20 text-warm-cream p-3 rounded-[1px] text-body-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200 resize-none"
                 />
               </div>
@@ -206,7 +235,7 @@ export default function ReservationForm() {
                 disabled={loading} 
                 className="mt-2.5 w-full font-sans text-body-sm font-semibold tracking-[0.64px] uppercase bg-lemon-zest text-black-olive py-3 px-5 rounded-[1px] transition-opacity duration-200 text-center hover:opacity-90 disabled:opacity-50"
               >
-                {loading ? 'SECURING TABLE...' : 'RESERVE TABLE'}
+                {loading ? t('reservations.placeholders.submitting') : t('reservations.placeholders.submit')}
               </button>
             </form>
           )}
@@ -215,3 +244,4 @@ export default function ReservationForm() {
     </section>
   );
 }
+
