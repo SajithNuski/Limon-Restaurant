@@ -86,12 +86,12 @@ export default function CartSidebar() {
   };
 
   return (
-    <div className="cart-overlay animate-fade-in">
-      <div className="cart-backdrop" onClick={() => setIsCartOpen(false)}></div>
-      <div className="cart-panel">
-        <div className="cart-header">
-          <h3 className="cart-title">YOUR SELECTIONS</h3>
-          <button className="cart-close-btn" onClick={() => {
+    <div className="fixed top-0 left-0 w-screen h-screen z-[200] flex justify-end animate-fade-in">
+      <div className="absolute top-0 left-0 w-full h-full bg-black/60" onClick={() => setIsCartOpen(false)}></div>
+      <div className="relative z-10 w-full sm:w-[440px] h-full bg-black-olive border-l border-sage-mist/10 flex flex-col p-[30px] overflow-y-auto">
+        <div className="flex justify-between items-center mb-[30px]">
+          <h3 className="text-body-lg tracking-[0.64px] uppercase text-warm-cream">YOUR SELECTIONS</h3>
+          <button className="text-warm-cream hover:text-lemon-zest transition-colors duration-200" onClick={() => {
             setIsCartOpen(false);
             setOrderPlaced(false);
           }}>
@@ -100,9 +100,9 @@ export default function CartSidebar() {
         </div>
 
         {orderPlaced ? (
-          <div className="cart-success-view">
-            <h4 className="success-heading">Order Placed Successfully!</h4>
-            <p className="success-body">
+          <div className="text-center my-auto">
+            <h4 className="text-subheading text-lemon-zest mb-4 tracking-[1px]">Order Placed Successfully!</h4>
+            <p className="text-body-sm mb-[30px] text-warm-cream/80 leading-[1.5]">
               Your gourmet selections have been sent to the brasserie kitchen. We will start preparation shortly.
             </p>
             <button
@@ -110,43 +110,43 @@ export default function CartSidebar() {
                 setOrderPlaced(false);
                 setIsCartOpen(false);
               }}
-              className="filled-cta-btn"
+              className="font-sans text-body-sm font-semibold tracking-[0.64px] uppercase bg-lemon-zest text-black-olive py-3 px-5 rounded-[1px] transition-opacity duration-200 text-center hover:opacity-90 inline-block w-full"
             >
               CONTINUE BROWSING
             </button>
           </div>
         ) : cartItems.length === 0 ? (
-          <div className="cart-empty-view">
-            <p className="empty-message">Your order tray is currently empty.</p>
-            <button onClick={() => setIsCartOpen(false)} className="filled-cta-btn">
+          <div className="text-center my-auto">
+            <p className="text-body-sm text-warm-cream/60 mb-5">Your order tray is currently empty.</p>
+            <button onClick={() => setIsCartOpen(false)} className="font-sans text-body-sm font-semibold tracking-[0.64px] uppercase bg-lemon-zest text-black-olive py-3 px-5 rounded-[1px] transition-opacity duration-200 text-center hover:opacity-90 inline-block w-full">
               EXPLORE MENU
             </button>
           </div>
         ) : (
           <>
-            <div className="cart-items-list">
+            <div className="flex flex-col gap-5 mb-[30px]">
               {cartItems.map((item) => (
-                <div key={item._id} className="cart-item">
-                  <img src={item.image} alt={item.name} className="cart-item-img" />
-                  <div className="cart-item-info">
-                    <h5 className="cart-item-name">{item.name}</h5>
-                    <div className="cart-item-price">${(item.price * item.quantity).toFixed(2)}</div>
-                    <div className="cart-item-controls">
+                <div key={item._id} className="flex gap-3 pb-4 border-b border-sage-mist/10">
+                  <img src={item.image} alt={item.name} className="w-[70px] h-[70px] object-cover rounded-[1px]" />
+                  <div className="flex flex-col flex-grow">
+                    <h5 className="text-body-sm font-medium text-warm-cream mb-1">{item.name}</h5>
+                    <div className="text-body-sm font-semibold text-lemon-zest mb-2">${(item.price * item.quantity).toFixed(2)}</div>
+                    <div className="flex items-center gap-2">
                       <button
-                        className="qty-btn"
+                        className="w-[22px] h-[22px] border border-sage-mist/30 flex items-center justify-center text-warm-cream rounded-[1px] hover:border-lemon-zest hover:text-lemon-zest transition-colors duration-200"
                         onClick={() => updateQuantity(item._id, item.quantity - 1)}
                       >
                         <Minus size={12} />
                       </button>
-                      <span className="qty-count">{item.quantity}</span>
+                      <span className="text-[14px] min-w-[16px] text-center text-warm-cream">{item.quantity}</span>
                       <button
-                        className="qty-btn"
+                        className="w-[22px] h-[22px] border border-sage-mist/30 flex items-center justify-center text-warm-cream rounded-[1px] hover:border-lemon-zest hover:text-lemon-zest transition-colors duration-200"
                         onClick={() => updateQuantity(item._id, item.quantity + 1)}
                       >
                         <Plus size={12} />
                       </button>
                       <button
-                        className="delete-item-btn"
+                        className="text-warm-cream/40 ml-auto hover:text-red-400 transition-colors duration-200"
                         onClick={() => removeFromCart(item._id)}
                       >
                         <Trash2 size={14} />
@@ -157,19 +157,19 @@ export default function CartSidebar() {
               ))}
             </div>
 
-            <div className="cart-summary">
-              <div className="cart-total-row">
+            <div className="border-t border-sage-mist/20 pt-4 mb-[30px]">
+              <div className="flex justify-between text-body-lg font-semibold text-warm-cream">
                 <span>SUBTOTAL</span>
-                <span className="total-val">${cartTotal.toFixed(2)}</span>
+                <span className="text-lemon-zest">${cartTotal.toFixed(2)}</span>
               </div>
             </div>
 
-            <form onSubmit={handleCheckout} className="checkout-form">
-              <h4 className="checkout-form-title">CHECKOUT DETAILS</h4>
-              {error && <div className="checkout-error">{error}</div>}
+            <form onSubmit={handleCheckout} className="border-t border-sage-mist/10 pt-6 flex flex-col gap-4">
+              <h4 className="text-caption tracking-[0.84px] text-warm-cream/50 mb-1">CHECKOUT DETAILS</h4>
+              {error && <div className="text-[#ff6b6b] text-body-sm bg-red-500/10 p-2 border border-red-500/10 rounded-[1px]">{error}</div>}
 
-              <div className="checkout-input-group">
-                <label htmlFor="customerName">NAME</label>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="customerName" className="text-[11px] tracking-[0.84px] text-warm-cream/40">NAME</label>
                 <input
                   type="text"
                   id="customerName"
@@ -178,11 +178,12 @@ export default function CartSidebar() {
                   value={checkoutData.customerName}
                   onChange={handleChange}
                   placeholder="Enter name"
+                  className="border border-sage-mist/20 bg-black/20 text-warm-cream p-2.5 rounded-[1px] text-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                 />
               </div>
 
-              <div className="checkout-input-group">
-                <label htmlFor="email">EMAIL</label>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="email" className="text-[11px] tracking-[0.84px] text-warm-cream/40">EMAIL</label>
                 <input
                   type="email"
                   id="email"
@@ -191,11 +192,12 @@ export default function CartSidebar() {
                   value={checkoutData.email}
                   onChange={handleChange}
                   placeholder="Enter email"
+                  className="border border-sage-mist/20 bg-black/20 text-warm-cream p-2.5 rounded-[1px] text-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                 />
               </div>
 
-              <div className="checkout-input-group">
-                <label htmlFor="phone">PHONE</label>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="phone" className="text-[11px] tracking-[0.84px] text-warm-cream/40">PHONE</label>
                 <input
                   type="tel"
                   id="phone"
@@ -204,24 +206,30 @@ export default function CartSidebar() {
                   value={checkoutData.phone}
                   onChange={handleChange}
                   placeholder="Enter phone number"
+                  className="border border-sage-mist/20 bg-black/20 text-warm-cream p-2.5 rounded-[1px] text-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                 />
               </div>
 
-              <div className="checkout-input-group">
-                <label htmlFor="orderType">ORDER TYPE</label>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="orderType" className="text-[11px] tracking-[0.84px] text-warm-cream/40">ORDER TYPE</label>
                 <select
                   id="orderType"
                   name="orderType"
                   required
                   value={checkoutData.orderType}
                   onChange={handleChange}
+                  className="border border-sage-mist/20 bg-black/20 text-warm-cream p-2.5 rounded-[1px] text-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                 >
-                  <option value="pickup">Curbside Pickup</option>
-                  <option value="dine-in">Dine-In prep</option>
+                  <option value="pickup" className="bg-black-olive text-warm-cream">Curbside Pickup</option>
+                  <option value="dine-in" className="bg-black-olive text-warm-cream">Dine-In prep</option>
                 </select>
               </div>
 
-              <button type="submit" disabled={loading} className="filled-cta-btn checkout-submit-btn">
+              <button 
+                type="submit" 
+                disabled={loading} 
+                className="mt-2.5 w-full font-sans text-body-sm font-semibold tracking-[0.64px] uppercase bg-lemon-zest text-black-olive py-3 px-5 rounded-[1px] transition-opacity duration-200 text-center hover:opacity-90 disabled:opacity-50"
+              >
                 {loading ? 'SUBMITTING ORDER...' : `PLACE ORDER • $${cartTotal.toFixed(2)}`}
               </button>
             </form>

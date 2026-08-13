@@ -3,43 +3,43 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer className="footer-section">
-      <div className="container footer-container">
-        <div className="footer-brand-column">
-          <h2 className="footer-logo">LIMÓN</h2>
-          <p className="footer-tagline">Moody brasserie under candlelight</p>
+    <footer id="contact" className="bg-black-olive border-t border-sage-mist/10 pt-20 pb-0 text-warm-cream font-sans">
+      <div className="max-w-[1200px] mx-auto px-5 w-full flex flex-col lg:flex-row justify-between gap-10 pb-15">
+        <div className="w-full lg:w-[40%]">
+          <h2 className="text-heading-lg font-medium tracking-[1.84px] text-warm-cream mb-2 uppercase">LIMÓN</h2>
+          <p className="text-body-sm text-warm-cream/60 italic">Moody brasserie under candlelight</p>
         </div>
         
-        <div className="footer-links-column">
-          <h4 className="footer-subtitle">NAVIGATION</h4>
-          <ul className="footer-list">
-            <li><Link to="/">Home</Link></li>
-            <li><a href="/#menu">Menu</a></li>
-            <li><a href="/#about">About Us</a></li>
-            <li><a href="/#reservations">Reservations</a></li>
-            <li><Link to="/admin">Admin Dashboard</Link></li>
+        <div className="w-full lg:w-[25%]">
+          <h4 className="text-caption tracking-[0.84px] text-lemon-zest font-semibold mb-5 uppercase">NAVIGATION</h4>
+          <ul className="list-none flex flex-col gap-3">
+            <li><Link to="/" className="text-body-sm text-warm-cream/80 hover:text-lemon-zest transition-colors duration-200">Home</Link></li>
+            <li><a href="/#menu" className="text-body-sm text-warm-cream/80 hover:text-lemon-zest transition-colors duration-200">Menu</a></li>
+            <li><a href="/#about" className="text-body-sm text-warm-cream/80 hover:text-lemon-zest transition-colors duration-200">About Us</a></li>
+            <li><a href="/#reservations" className="text-body-sm text-warm-cream/80 hover:text-lemon-zest transition-colors duration-200">Reservations</a></li>
+            <li><Link to="/admin" className="text-body-sm text-warm-cream/80 hover:text-lemon-zest transition-colors duration-200">Admin Dashboard</Link></li>
           </ul>
         </div>
 
-        <div className="footer-contact-column">
-          <h4 className="footer-subtitle">CONTACT & LOCALE</h4>
-          <p className="footer-detail">84 Candlelight Blvd, Brasserie District</p>
-          <p className="footer-detail">reservations@limonbrasserie.com</p>
-          <p className="footer-detail">+1 (555) 019-3829</p>
+        <div className="w-full lg:w-[25%]">
+          <h4 className="text-caption tracking-[0.84px] text-lemon-zest font-semibold mb-5 uppercase">CONTACT & LOCALE</h4>
+          <p className="text-body-sm text-warm-cream/80 mb-3 leading-[1.4]">84 Candlelight Blvd, Brasserie District</p>
+          <p className="text-body-sm text-warm-cream/80 mb-3 leading-[1.4]">reservations@limonbrasserie.com</p>
+          <p className="text-body-sm text-warm-cream/80 mb-3 leading-[1.4]">+1 (555) 019-3829</p>
         </div>
       </div>
       
-      <div className="footer-bottom">
-        <div className="container footer-bottom-content">
-          <p className="copyright-text">
+      <div className="border-t border-sage-mist/10 py-[30px] bg-black/15">
+        <div className="max-w-[1200px] mx-auto px-5 w-full flex flex-col sm:flex-row justify-between items-center flex-wrap gap-4">
+          <p className="text-[13px] text-warm-cream/50 tracking-[0.5px]">
             &copy; {new Date().getFullYear()} LIMÓN BRASSERIE. ALL RIGHTS RESERVED.
           </p>
-          <div className="footer-socials">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
+          <div className="flex items-center gap-3 text-[12px] tracking-widest text-warm-cream/60">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-warm-cream/60 hover:text-lemon-zest transition-colors duration-200">INSTAGRAM</a>
             <span>·</span>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">FACEBOOK</a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-warm-cream/60 hover:text-lemon-zest transition-colors duration-200">FACEBOOK</a>
             <span>·</span>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">TWITTER</a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-warm-cream/60 hover:text-lemon-zest transition-colors duration-200">TWITTER</a>
           </div>
         </div>
       </div>

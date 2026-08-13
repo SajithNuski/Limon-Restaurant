@@ -120,23 +120,26 @@ export default function Home() {
   const featuredDish = menu.find(item => item.isFeatured) || menu[0];
 
   return (
-    <div className="home-page">
+    <div className="bg-black-olive">
       {/* Hero Section */}
-      <section className="hero-section">
-        <div className="hero-bg-overlay"></div>
-        <div className="container hero-container animate-fade-in">
-          <div className="hero-text-block">
-            <h1 className="hero-display-text">
+      <section 
+        className="relative w-full h-[calc(100vh-80px)] min-h-[550px] flex items-center bg-cover bg-center md:h-[calc(100vh-80px)] h-auto py-[100px] md:py-0"
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&auto=format&fit=crop&q=80')" }}
+      >
+        <div className="absolute top-0 left-0 w-full h-full bg-[#1d0b0d]/75 z-0"></div>
+        <div className="relative z-10 max-w-[1200px] mx-auto px-5 w-full animate-fade-in">
+          <div className="max-w-[650px]">
+            <h1 className="font-sans text-heading-lg md:text-display-xl font-normal leading-none tracking-[4.5px] text-lemon-zest mb-5">
               LIMÓN<br />BRASSERIE
             </h1>
-            <p className="hero-subline">
+            <p className="font-sans text-body-lg font-normal tracking-[0.4px] leading-[1.5] text-warm-cream mb-[30px]">
               A moody candlelit dining experience highlighting fresh ceviches, premium flame-kissed cuts, and curated citrus mixology.
             </p>
-            <div className="hero-actions">
-              <a href="#menu" className="filled-cta-btn">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-3">
+              <a href="#menu" className="font-sans text-body-sm font-semibold tracking-[0.64px] uppercase bg-lemon-zest text-black-olive py-3 px-5 rounded-[1px] transition-opacity duration-200 text-center hover:opacity-90 inline-block">
                 EXPLORE MENU
               </a>
-              <a href="#reservations" className="hero-ghost-btn">
+              <a href="#reservations" className="font-sans text-body-sm font-semibold tracking-[0.64px] uppercase text-warm-cream border border-white py-3 px-4 rounded-[1px] transition-all duration-200 hover:bg-white hover:text-black-olive text-center inline-block">
                 RESERVE A TABLE
               </a>
             </div>
@@ -148,24 +151,26 @@ export default function Home() {
       <FeaturedSection dish={featuredDish} />
 
       {/* Menu Section */}
-      <section id="menu" className="menu-section section-padding">
-        <div className="container">
-          <div className="section-header">
-            <span className="section-subtitle text-forest">OUR GOURMET SELECTIONS</span>
-            <h2 className="section-title text-forest">The Brasserie Menu</h2>
-            <p className="section-desc text-forest-muted">
+      <section id="menu" className="bg-warm-cream text-black-olive py-[60px]">
+        <div className="max-w-[1200px] mx-auto px-5 w-full">
+          <div className="mb-[50px] max-w-[650px]">
+            <span className="text-caption tracking-[0.84px] font-semibold uppercase mb-2 text-forest-ink block">OUR GOURMET SELECTIONS</span>
+            <h2 className="text-heading font-medium tracking-[1.08px] mb-3 uppercase text-forest-ink">The Brasserie Menu</h2>
+            <p className="text-[19px] leading-[1.4] text-forest-ink/80">
               Flat, authentic food-first photography. Curated culinary still-life dishes served fresh to order.
             </p>
           </div>
 
           {/* Category Filter */}
-          <div className="category-filters">
+          <div className="flex flex-wrap gap-2 mb-10 border-b border-sage-mist pb-4 justify-center sm:justify-start">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`category-filter-btn ${
-                  selectedCategory === category ? 'filter-active' : ''
+                className={`text-caption font-semibold tracking-[0.84px] py-2 px-4 transition-all duration-200 rounded-[1px] hover:text-forest-ink ${
+                  selectedCategory === category 
+                    ? 'text-black-olive bg-sage-mist' 
+                    : 'text-forest-ink/60'
                 }`}
               >
                 {category.toUpperCase()}
@@ -174,9 +179,9 @@ export default function Home() {
           </div>
 
           {loading ? (
-            <div className="menu-loading">ILLUMINATING DISHES...</div>
+            <div className="text-body-lg text-forest-ink tracking-[2px] text-center py-[60px]">ILLUMINATING DISHES...</div>
           ) : (
-            <div className="menu-grid">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[30px] gap-y-[45px]">
               {filteredMenu.map((dish) => (
                 <FoodCard key={dish._id} dish={dish} />
               ))}
@@ -186,27 +191,30 @@ export default function Home() {
       </section>
 
       {/* About / Story Section */}
-      <section id="about" className="about-section section-padding">
-        <div className="container about-container">
-          <div className="about-text-content">
-            <span className="section-subtitle text-lemon">OUR PHILOSOPHY</span>
-            <h2 className="section-title text-cream">Candlelight & Ink</h2>
-            <p className="about-paragraph text-cream">
+      <section id="about" className="bg-black-olive text-warm-cream py-[60px]">
+        <div className="max-w-[1200px] mx-auto px-5 w-full flex flex-col lg:flex-row items-center gap-[50px]">
+          <div className="w-full lg:w-1/2 flex flex-col items-start">
+            <span className="text-caption tracking-[0.84px] font-semibold uppercase mb-2 text-lemon-zest block">OUR PHILOSOPHY</span>
+            <h2 className="text-heading font-medium tracking-[1.08px] mb-3 uppercase text-warm-cream">Candlelight & Ink</h2>
+            <p className="text-[19px] leading-[1.45] mb-5 text-warm-cream">
               Limón is designed as an evening retreat. The visual grammar of our brasserie relies on olive-black surfaces and minimal structural decoration, allowing the plates and drinks to burn brightly under soft candlelight.
             </p>
-            <p className="about-paragraph text-cream-muted">
+            <p className="text-[19px] leading-[1.45] mb-5 text-warm-cream/70">
               We source organic ingredients, highlighting seasonal fruits and lime, pairing our dishes with deep botanical greens and full-bodied spices. Our space is sharp, unsoftened, and dedicated entirely to the presentation of culinary art.
             </p>
-            <a href="#reservations" className="ghost-link-btn ghost-link-light">
+            <a 
+              href="#reservations" 
+              className="group font-sans text-body-sm font-medium tracking-[0.64px] uppercase inline-flex items-center gap-1.5 py-2 transition-all duration-200 border-b border-transparent hover:border-current text-warm-cream"
+            >
               RESERVE SEATING
-              <ArrowRight size={14} className="ghost-link-icon" />
+              <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
             </a>
           </div>
-          <div className="about-image-wrapper">
+          <div className="w-full lg:w-1/2">
             <img
               src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=800&auto=format&fit=crop&q=80"
               alt="Moody candlelight dining space"
-              className="about-image"
+              className="w-full h-[380px] lg:h-[520px] object-cover rounded-none"
             />
           </div>
         </div>
@@ -216,50 +224,50 @@ export default function Home() {
       <ReservationForm />
 
       {/* FAQ Section */}
-      <section className="faq-section section-padding">
-        <div className="container">
-          <div className="section-header centered">
-            <span className="section-subtitle text-forest">COMMON INQUIRIES</span>
-            <h2 className="section-title text-forest">Frequently Asked Questions</h2>
+      <section className="bg-warm-cream text-black-olive border-t border-sage-mist py-[60px]">
+        <div className="max-w-[1200px] mx-auto px-5 w-full">
+          <div className="mb-[50px] max-w-[650px] mx-auto text-center">
+            <span className="text-caption tracking-[0.84px] font-semibold uppercase mb-2 text-forest-ink block">COMMON INQUIRIES</span>
+            <h2 className="text-heading font-medium tracking-[1.08px] mb-3 uppercase text-forest-ink">Frequently Asked Questions</h2>
           </div>
 
-          <div className="faq-grid">
-            <div className="faq-item">
-              <h4 className="faq-question">
-                <HelpCircle size={16} className="faq-icon" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-[900px] mx-auto">
+            <div className="flex flex-col gap-2">
+              <h4 className="text-body-lg font-medium tracking-[0.64px] flex items-center gap-2 text-forest-ink">
+                <HelpCircle size={16} className="text-forest-ink shrink-0" />
                 What is the attire recommendation?
               </h4>
-              <p className="faq-answer">
+              <p className="text-body-sm leading-[1.45] text-forest-ink/80 pl-6">
                 We recommend smart casual attire. The atmosphere is an elegant, moody brasserie under candlelight, and dressing for the occasion is welcomed.
               </p>
             </div>
             
-            <div className="faq-item">
-              <h4 className="faq-question">
-                <HelpCircle size={16} className="faq-icon" />
+            <div className="flex flex-col gap-2">
+              <h4 className="text-body-lg font-medium tracking-[0.64px] flex items-center gap-2 text-forest-ink">
+                <HelpCircle size={16} className="text-forest-ink shrink-0" />
                 Do you accommodate food allergies?
               </h4>
-              <p className="faq-answer">
+              <p className="text-body-sm leading-[1.45] text-forest-ink/80 pl-6">
                 Yes, our chefs can customize yellowtail ceviches, salads, and main courses to fit gluten-free, nut-free, and shell-fish allergies. Please detail your requests in the reservation form.
               </p>
             </div>
 
-            <div className="faq-item">
-              <h4 className="faq-question">
-                <HelpCircle size={16} className="faq-icon" />
+            <div className="flex flex-col gap-2">
+              <h4 className="text-body-lg font-medium tracking-[0.64px] flex items-center gap-2 text-forest-ink">
+                <HelpCircle size={16} className="text-forest-ink shrink-0" />
                 Can we host private events?
               </h4>
-              <p className="faq-answer">
+              <p className="text-body-sm leading-[1.45] text-forest-ink/80 pl-6">
                 We accommodate private buyouts for groups of up to 45 guests. Email events@limonbrasserie.com for inquiries.
               </p>
             </div>
 
-            <div className="faq-item">
-              <h4 className="faq-question">
-                <HelpCircle size={16} className="faq-icon" />
+            <div className="flex flex-col gap-2">
+              <h4 className="text-body-lg font-medium tracking-[0.64px] flex items-center gap-2 text-forest-ink">
+                <HelpCircle size={16} className="text-forest-ink shrink-0" />
                 Is parking available?
               </h4>
-              <p className="faq-answer">
+              <p className="text-body-sm leading-[1.45] text-forest-ink/80 pl-6">
                 Complimentary valet service is available directly outside our main entrance starting at 5:00 PM Wednesday through Sunday.
               </p>
             </div>

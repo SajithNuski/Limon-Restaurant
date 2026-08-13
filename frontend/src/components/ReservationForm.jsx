@@ -63,39 +63,39 @@ export default function ReservationForm() {
   };
 
   return (
-    <section id="reservations" className="reservation-section section-padding">
-      <div className="container reservation-container">
-        <div className="reservation-info">
-          <span className="section-subtitle text-lemon">RESERVATIONS</span>
-          <h2 className="section-title text-cream">Experience the Candlelight</h2>
-          <p className="section-text text-cream-muted">
+    <section id="reservations" className="bg-black-olive border-t border-sage-mist/10 py-[60px]">
+      <div className="max-w-[1200px] mx-auto px-5 w-full flex flex-col lg:flex-row justify-between gap-[50px]">
+        <div className="w-full lg:w-[40%]">
+          <span className="block text-caption tracking-[0.84px] font-semibold uppercase mb-2 text-lemon-zest">RESERVATIONS</span>
+          <h2 className="text-heading font-medium tracking-[1.08px] mb-3 uppercase text-warm-cream">Experience the Candlelight</h2>
+          <p className="text-body-lg leading-[1.5] mb-[30px] text-warm-cream/70">
             Secure your table at Limón. Under moody olive-black canvases, bathed in warm overhead illumination, discover our signature still-life culinary expressions.
           </p>
-          <div className="brasserie-hours">
-            <h4 className="hours-title">Hours of Illumination</h4>
-            <p className="hours-detail">Wednesday — Sunday: 5:00 PM — 11:30 PM</p>
-            <p className="hours-detail">Monday — Tuesday: Closed for Culinary Prep</p>
+          <div className="border-t border-sage-mist/20 pt-5">
+            <h4 className="text-body-lg tracking-[0.4px] mb-2 text-warm-cream">Hours of Illumination</h4>
+            <p className="text-body-sm text-warm-cream/60 mb-1">Wednesday — Sunday: 5:00 PM — 11:30 PM</p>
+            <p className="text-body-sm text-warm-cream/60 mb-1">Monday — Tuesday: Closed for Culinary Prep</p>
           </div>
         </div>
 
-        <div className="reservation-card">
+        <div className="w-full lg:w-[55%] bg-white/[0.02] p-10 border border-sage-mist/10 rounded-[1px]">
           {success ? (
-            <div className="reservation-success">
-              <h3 className="success-heading">Table Reserved</h3>
-              <p className="success-text">
+            <div className="text-center py-10">
+              <h3 className="text-subheading text-lemon-zest mb-4 tracking-[1px]">Table Reserved</h3>
+              <p className="text-body-sm mb-[30px] text-warm-cream/80">
                 Your reservation at Limón has been recorded. We will illuminate your table and send a confirmation email shortly.
               </p>
-              <button onClick={() => setSuccess(false)} className="filled-cta-btn">
+              <button onClick={() => setSuccess(false)} className="font-sans text-body-sm font-semibold tracking-[0.64px] uppercase bg-lemon-zest text-black-olive py-3 px-5 rounded-[1px] transition-opacity duration-200 text-center hover:opacity-90 inline-block">
                 BOOK ANOTHER TABLE
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="reservation-form">
-              {error && <div className="form-error-msg">{error}</div>}
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              {error && <div className="bg-red-500/10 text-[#ff6b6b] border border-red-500/20 p-3 text-body-sm rounded-[1px]">{error}</div>}
 
-              <div className="form-group-row">
-                <div className="form-input-group">
-                  <label htmlFor="name">NAME</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="name" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">NAME</label>
                   <input
                     type="text"
                     id="name"
@@ -104,10 +104,11 @@ export default function ReservationForm() {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Enter name"
+                    className="border border-sage-mist/20 bg-black/20 text-warm-cream p-3 rounded-[1px] text-body-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                   />
                 </div>
-                <div className="form-input-group">
-                  <label htmlFor="email">EMAIL</label>
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="email" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">EMAIL</label>
                   <input
                     type="email"
                     id="email"
@@ -116,13 +117,14 @@ export default function ReservationForm() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Enter email address"
+                    className="border border-sage-mist/20 bg-black/20 text-warm-cream p-3 rounded-[1px] text-body-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                   />
                 </div>
               </div>
 
-              <div className="form-group-row">
-                <div className="form-input-group">
-                  <label htmlFor="phone">PHONE</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="phone" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">PHONE</label>
                   <input
                     type="tel"
                     id="phone"
@@ -131,19 +133,21 @@ export default function ReservationForm() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="Enter phone number"
+                    className="border border-sage-mist/20 bg-black/20 text-warm-cream p-3 rounded-[1px] text-body-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                   />
                 </div>
-                <div className="form-input-group">
-                  <label htmlFor="guests">GUESTS</label>
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="guests" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">GUESTS</label>
                   <select
                     id="guests"
                     name="guests"
                     required
                     value={formData.guests}
                     onChange={handleChange}
+                    className="border border-sage-mist/20 bg-black/20 text-warm-cream p-3 rounded-[1px] text-body-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                   >
                     {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-                      <option key={n} value={n}>
+                      <option key={n} value={n} className="bg-black-olive text-warm-cream">
                         {n} {n === 1 ? 'Guest' : 'Guests'}
                       </option>
                     ))}
@@ -151,9 +155,9 @@ export default function ReservationForm() {
                 </div>
               </div>
 
-              <div className="form-group-row">
-                <div className="form-input-group">
-                  <label htmlFor="date">DATE</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="date" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">DATE</label>
                   <input
                     type="date"
                     id="date"
@@ -161,20 +165,22 @@ export default function ReservationForm() {
                     required
                     value={formData.date}
                     onChange={handleChange}
+                    className="border border-sage-mist/20 bg-black/20 text-warm-cream p-3 rounded-[1px] text-body-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                   />
                 </div>
-                <div className="form-input-group">
-                  <label htmlFor="time">TIME</label>
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="time" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">TIME</label>
                   <select
                     id="time"
                     name="time"
                     required
                     value={formData.time}
                     onChange={handleChange}
+                    className="border border-sage-mist/20 bg-black/20 text-warm-cream p-3 rounded-[1px] text-body-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200"
                   >
-                    <option value="">Select Time</option>
+                    <option value="" className="bg-black-olive text-warm-cream">Select Time</option>
                     {['17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00'].map((t) => (
-                      <option key={t} value={t}>
+                      <option key={t} value={t} className="bg-black-olive text-warm-cream">
                         {t}
                       </option>
                     ))}
@@ -182,8 +188,8 @@ export default function ReservationForm() {
                 </div>
               </div>
 
-              <div className="form-input-group">
-                <label htmlFor="specialRequests">SPECIAL REQUESTS (OPTIONAL)</label>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="specialRequests" className="text-[12px] tracking-[0.84px] text-warm-cream/50 font-semibold">SPECIAL REQUESTS (OPTIONAL)</label>
                 <textarea
                   id="specialRequests"
                   name="specialRequests"
@@ -191,10 +197,15 @@ export default function ReservationForm() {
                   value={formData.specialRequests}
                   onChange={handleChange}
                   placeholder="Dietary details, birthday events, or seating requests..."
+                  className="border border-sage-mist/20 bg-black/20 text-warm-cream p-3 rounded-[1px] text-body-sm focus:outline-none focus:border-lemon-zest transition-colors duration-200 resize-none"
                 />
               </div>
 
-              <button type="submit" disabled={loading} className="filled-cta-btn submit-btn">
+              <button 
+                type="submit" 
+                disabled={loading} 
+                className="mt-2.5 w-full font-sans text-body-sm font-semibold tracking-[0.64px] uppercase bg-lemon-zest text-black-olive py-3 px-5 rounded-[1px] transition-opacity duration-200 text-center hover:opacity-90 disabled:opacity-50"
+              >
                 {loading ? 'SECURING TABLE...' : 'RESERVE TABLE'}
               </button>
             </form>
