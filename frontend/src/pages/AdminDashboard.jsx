@@ -44,17 +44,17 @@ export default function AdminDashboard() {
 
     try {
       if (activeTab === 'reservations') {
-        const res = await fetch('http://localhost:5000/api/reservations', { headers });
+        const res = await fetch('/api/reservations', { headers });
         if (!res.ok) throw new Error('Failed to load reservations');
         const data = await res.json();
         setReservations(data);
       } else if (activeTab === 'orders') {
-        const res = await fetch('http://localhost:5000/api/orders', { headers });
+        const res = await fetch('/api/orders', { headers });
         if (!res.ok) throw new Error('Failed to load orders');
         const data = await res.json();
         setOrders(data);
       } else if (activeTab === 'menu') {
-        const res = await fetch('http://localhost:5000/api/menu');
+        const res = await fetch('/api/menu');
         if (!res.ok) throw new Error('Failed to load menu items');
         const data = await res.json();
         setMenuItems(data);
@@ -151,7 +151,7 @@ export default function AdminDashboard() {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/reservations/${id}/status`, {
+      const res = await fetch(`/api/reservations/${id}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -176,7 +176,7 @@ export default function AdminDashboard() {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/orders/${id}/status`, {
+      const res = await fetch(`/api/orders/${id}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -210,7 +210,7 @@ export default function AdminDashboard() {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/menu', {
+      const res = await fetch('/api/menu', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -238,7 +238,7 @@ export default function AdminDashboard() {
     if (!window.confirm('Delete this menu item?')) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/menu/${id}`, {
+      const res = await fetch(`/api/menu/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${admin.token}`

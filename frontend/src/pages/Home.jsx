@@ -100,7 +100,7 @@ export default function Home() {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/menu');
+        const response = await fetch('/api/menu');
         if (!response.ok) throw new Error('Failed to fetch menu');
         const data = await response.json();
         setMenu(data);

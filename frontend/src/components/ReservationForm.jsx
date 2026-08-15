@@ -28,7 +28,7 @@ export default function ReservationForm() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/reservations', {
+      const response = await fetch('/api/reservations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

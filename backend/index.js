@@ -28,13 +28,13 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-const startServer = async () => {
-  // Try connecting to DB
-  await connectDB();
+// Connect to Database
+connectDB();
 
+if (!process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
-};
+}
 
-startServer();
+module.exports = app;
