@@ -2,13 +2,10 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 
-const fallbackDir = path.join(__dirname, '../data');
+const fallbackDir = process.env.VERCEL 
+  ? '/tmp' 
+  : path.join(__dirname, '../data');
 const fallbackPath = path.join(fallbackDir, 'fallback_db.json');
-
-// Ensure fallback directory and file exist
-if (!fs.existsSync(fallbackDir)) {
-  fs.mkdirSync(fallbackDir, { recursive: true });
-}
 
 const defaultData = {
   menu: [],
@@ -17,8 +14,22 @@ const defaultData = {
   users: [] // For admin login
 };
 
-if (!fs.existsSync(fallbackPath)) {
-  fs.writeFileSync(fallbackPath, JSON.stringify(defaultData, null, 2), 'utf8');
+// Ensure fallback directory and file exist
+if (process.env.VERCEL) {
+  if (!fs.existsSync(fallbackPath)) {
+    try {
+      fs.writeFileSync(fallbackPath, JSON.stringify(defaultData, null, 2), 'utf8');
+    } catch (err) {
+      console.warn('Could not write fallback DB to /tmp:', err.message);
+    }
+  }
+} else {
+  if (!fs.existsSync(fallbackDir)) {
+    fs.mkdirSync(fallbackDir, { recursive: true });
+  }
+  if (!fs.existsSync(fallbackPath)) {
+    fs.writeFileSync(fallbackPath, JSON.stringify(defaultData, null, 2), 'utf8');
+  }
 }
 
 let isUsingFallback = false;
