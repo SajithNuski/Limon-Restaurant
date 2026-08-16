@@ -1,5 +1,6 @@
 # Dependency directories
 **/node_modules/
+**/node_modules_old/
 node_modules/
 
 # Local databases & fallback files

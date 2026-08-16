@@ -100,7 +100,7 @@ export default function Home() {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await fetch('/api/menu');
+        const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/menu`);
         if (!response.ok) throw new Error('Failed to fetch menu');
         const data = await response.json();
         setMenu(data);

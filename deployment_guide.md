@@ -1,106 +1,140 @@
-# Deployment Guide: Limón Restaurant on Vercel
+# Step-by-Step Deployment Guide: Separate Backend & Frontend on Vercel
 
-This guide outlines the steps required to deploy the Limón Restaurant MERN-stack website on Vercel as a single application, utilizing **Vercel Serverless Functions** for the backend API and **Vercel Static Hosting** for the Vite React frontend.
-
----
-
-## 🏗️ Architecture Overview
-
-The repository is structured as a monorepo:
-* **`/frontend`**: React client powered by Vite & Tailwind CSS.
-* **`/backend`**: Express REST API.
-* **`/api`**: Vercel Serverless function entrypoint (`/api/index.js`) that imports the Express app from the backend.
-* **`vercel.json`**: Root configuration specifying static build outputs, API routing, and single-page application (SPA) routing.
-* **`package.json`**: Root configuration utilizing npm workspaces to manage dependencies for both directories and execute builds.
+This guide explains how to deploy the Limón Restaurant application on Vercel as two separate services:
+1. **Backend API**: Running as Express serverless functions.
+2. **Frontend React Client**: Running as a static Vite application.
 
 ---
 
-## 📦 Local Configuration Changes Applied
+## 🏗️ Architecture Design & Changes Applied
 
-The following changes have been made to support Vercel and optimize local development:
-1. **API Relative Routing**: All hardcoded frontend endpoints (`http://localhost:5000/api/...`) have been converted to relative paths (`/api/...`).
-2. **Vite Development Proxy**: Configured `/api` requests to proxy to `http://localhost:5000` during local development in `frontend/vite.config.js`. This guarantees that local development still behaves normally without changing front-end code.
-3. **Conditional Server Listener**: Restructured `backend/index.js` to only run `app.listen()` when `process.env.VERCEL` is absent, allowing Vercel to handle the HTTP server wrapper.
-4. **Vercel Rewrite Rules**: Redirects `/api/*` requests to the Serverless entry point `/api/index.js`, while routing all other traffic to `/index.html` to support React Router navigation.
-
----
-
-## 🚀 Step 1: Set Up MongoDB Atlas (Recommended)
-
-Since Vercel Serverless Functions operate on a read-only, ephemeral filesystem, the local fallback JSON database (`fallback_db.json`) cannot persist data across requests. It is highly recommended to use a free MongoDB Atlas instance in production.
-
-1. Create a free account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
-2. Create a new shared cluster (free tier).
-3. Under **Network Access**, add IP address `0.0.0.0/0` to allow connections from Vercel's dynamic IP addresses.
-4. Under **Database Access**, create a user with read/write permissions and copy their password.
-5. In your cluster dashboard, click **Connect** -> **Drivers** and copy your **connection string** (it looks like `mongodb+srv://<username>:<password>@cluster0.xxxx.mongodb.net/?retryWrites=true&w=majority`).
-6. Replace `<username>` and `<password>` with your database user credentials.
+To support separate deployments:
+* **Dynamic API URL (`VITE_API_URL`)**: The frontend now uses `import.meta.env.VITE_API_URL` to prefix all fetch calls.
+  - If undefined (e.g., during local development), it defaults to relative paths (`/api/...`), allowing Vite's dev proxy to work seamlessly.
+  - In production, it uses the backend Vercel URL you specify in the environment variables.
+* **Permissive CORS configuration**: The backend's CORS is configured to reflect the request origin (`origin: true`) automatically. This prevents any CORS blockages once the frontend is deployed.
+* **Individual Vercel Configs**:
+  - `/backend/vercel.json` routes all routes to `index.js` via `@vercel/node`.
+  - `/frontend/vercel.json` handles Single Page Application (SPA) routing for the React frontend, preventing 404 errors on page reloads.
 
 ---
 
-## 🧪 Step 2: Seed the Production Database
+## 🗄️ Step 1: Set Up MongoDB Atlas
 
-To populate your MongoDB Atlas database with the initial menu items and the administrator user:
+Since Vercel's serverless functions are ephemeral, you must use a cloud database (like MongoDB Atlas) to persist menus, reservations, and orders.
 
-1. Locate the `.env` file inside your `/backend` directory (create one if it does not exist).
-2. Add your Atlas connection string to the `.env` file:
+1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) and create a free account/cluster.
+2. **Network Access**: Add IP address `0.0.0.0/0` (required because Vercel uses dynamic IP addresses).
+3. **Database Access**: Create a database user with read/write permissions.
+4. **Get Connection String**: Click **Connect** -> **Drivers** and copy the URI (e.g., `mongodb+srv://<username>:<password>@cluster0.xxxx.mongodb.net/limon_restaurant?retryWrites=true&w=majority`).
+5. Replace `<username>` and `<password>` with your database user credentials.
+
+---
+
+## ☁️ Step 2: Deploy the Backend First
+
+You can deploy the backend using the **Vercel Dashboard** or the **Vercel CLI**.
+
+### Method A: Via Vercel Dashboard (Recommended)
+1. Push your repository to GitHub, GitLab, or Bitbucket.
+2. Go to the [Vercel Dashboard](https://vercel.com/dashboard) and click **Add New** -> **Project**.
+3. Select your repository.
+4. Configure the project:
+   * **Project Name**: `limon-restaurant-backend` (or similar)
+   * **Framework Preset**: `Other`
+   * **Root Directory**: Select **`backend`**
+   * **Build Command**: Keep empty (leave default)
+   * **Output Directory**: Keep empty (leave default)
+5. Open **Environment Variables** and add:
+   * `MONGODB_URI`: *Your MongoDB Atlas connection string*
+   * `JWT_SECRET`: *A secure random string (e.g., `super_secret_jwt_key`)*
+6. Click **Deploy**.
+7. Once deployed, **copy your backend deployment URL** (e.g., `https://limon-restaurant-backend.vercel.app`).
+
+### Method B: Via Vercel CLI
+1. Open a terminal in the `/backend` folder:
+   ```bash
+   cd backend
+   ```
+2. Run the vercel command:
+   ```bash
+   vercel
+   ```
+3. Follow the prompts:
+   * Link to existing project? **No**
+   * Project Name: `limon-restaurant-backend`
+   * Directory: `./`
+   * Modify settings? **No**
+4. Add environment variables:
+   ```bash
+   vercel env add MONGODB_URI
+   vercel env add JWT_SECRET
+   ```
+5. Deploy to production:
+   ```bash
+   vercel --prod
+   ```
+6. **Copy the production URL** provided at the end of the deployment.
+
+---
+
+## 🧪 Step 3: Seed the Production Database (Optional)
+
+To populate your MongoDB Atlas database with default menu items and the admin user:
+
+1. Create a `.env` file inside your `/backend` directory.
+2. Add your connection string and JWT secret:
    ```env
-   MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.xxxx.mongodb.net/limon_restaurant?retryWrites=true&w=majority
-   JWT_SECRET=your_super_secret_jwt_key
+   MONGODB_URI=mongodb+srv://...
+   JWT_SECRET=super_secret_jwt_key
    ```
 3. Open a terminal in the root of the project and run the seed script:
    ```bash
    npm run seed --workspace=backend
    ```
-   This will connect to your MongoDB Atlas database and insert the default menu items and create the default admin account:
-   * **Username**: `admin`
-   * **Password**: `password123`
+   * **Default Admin Username**: `admin`
+   * **Default Admin Password**: `password123`
 
 ---
 
-## ☁️ Step 3: Deploy to Vercel
+## ☁️ Step 4: Deploy the Frontend
 
-You can deploy the site using the **Vercel Dashboard** (connected to GitHub/GitLab) or using the **Vercel CLI**.
+Now that you have the backend URL, you can deploy the frontend.
 
-### Method A: Via Vercel Dashboard (Recommended)
-
-1. Push your repository to **GitHub**, **GitLab**, or **Bitbucket**.
-2. Go to the [Vercel Dashboard](https://vercel.com/dashboard) and click **Add New** -> **Project**.
-3. Select your repository.
-4. Configure the project settings:
-   * **Framework Preset**: `Other` (or select `Vite` - Vercel will automatically detect the configuration in `vercel.json`).
-   * **Root Directory**: Keep as the project root (leave empty/dot `./`).
+### Method A: Via Vercel Dashboard
+1. Go to the [Vercel Dashboard](https://vercel.com/dashboard) and click **Add New** -> **Project**.
+2. Select the same repository.
+3. Configure the project:
+   * **Project Name**: `limon-restaurant` (or similar)
+   * **Framework Preset**: `Vite` (Vercel should auto-detect this)
+   * **Root Directory**: Select **`frontend`**
    * **Build Command**: `npm run build`
-   * **Output Directory**: Vercel will read this from `vercel.json` (`frontend/dist`), so leave this default or blank.
-5. Open the **Environment Variables** section and add:
-   * `MONGODB_URI`: *Your MongoDB Atlas connection string*
-   * `JWT_SECRET`: *A secure random string (e.g., `8d2f5a8c9e...`)*
-6. Click **Deploy**. Vercel will install the workspaces, build the Vite frontend, compile the serverless functions, and serve your application.
+   * **Output Directory**: `dist`
+4. Open **Environment Variables** and add:
+   * `VITE_API_URL`: *Your backend Vercel URL (e.g., `https://limon-restaurant-backend.vercel.app`)*
+     > [!IMPORTANT]
+     > Ensure there is **no trailing slash** at the end of the URL (e.g., use `https://example.vercel.app` instead of `https://example.vercel.app/`).
+5. Click **Deploy**.
 
 ### Method B: Via Vercel CLI
-
-If you prefer using the terminal:
-
-1. Install the Vercel CLI globally:
+1. Open a terminal in the `/frontend` folder:
    ```bash
-   npm install -g vercel
+   cd frontend
    ```
-2. Log in and initiate deployment in the project root:
+2. Run the vercel command:
    ```bash
    vercel
    ```
 3. Follow the prompts:
-   * Set up and deploy: **Yes**
-   * Scope: *Your personal or team account*
-   * Link to existing project: **No**
-   * Project name: `limon-restaurant`
+   * Link to existing project? **No**
+   * Project Name: `limon-restaurant-frontend`
    * Directory: `./`
-   * Modify settings: **No** (Vercel reads configuration from `vercel.json` and `package.json` automatically).
-4. Set the environment variables in the Vercel dashboard or via CLI:
+   * Modify settings? **No**
+4. Add the backend environment variable:
    ```bash
-   vercel env add MONGODB_URI
-   vercel env add JWT_SECRET
+   vercel env add VITE_API_URL
    ```
+   *(Enter your backend Vercel URL when prompted)*
 5. Deploy to production:
    ```bash
    vercel --prod
@@ -110,14 +144,14 @@ If you prefer using the terminal:
 
 ## 🛠️ Local Development Workflow
 
-After applying these changes, running the app locally remains simple:
+Running the project locally remains unchanged and simple:
 
-1. Start the backend Express server:
+1. Start the backend:
    ```bash
    npm run dev --workspace=backend
    ```
-2. Start the Vite React frontend:
+2. Start the frontend:
    ```bash
    npm run dev --workspace=frontend
    ```
-3. Open your browser to `http://localhost:5173`. Any API calls to `/api/...` will automatically route to your backend server running on port `5000` via Vite's configured dev proxy.
+3. Open `http://localhost:5173`. Any API calls will route to `http://localhost:5000` via Vite's dev proxy because `VITE_API_URL` is undefined locally.
